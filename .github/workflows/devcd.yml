@@ -31,8 +31,8 @@ jobs:
 
       - name: gradle build
         run: |
-          echo "GRADLE BUILD START==============" \
-          ./gradlew jabiseo-api:clean \
+          echo "GRADLE BUILD START==============" 
+          ./gradlew jabiseo-api:clean 
           ./gradlew jabiseo-api:build
 
       - name: Configure AWS credentials
