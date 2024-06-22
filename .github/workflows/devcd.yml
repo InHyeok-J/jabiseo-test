@@ -50,10 +50,6 @@ jobs:
           git fetch --tags
           git tag
           
-          
-          
-          git describe --tags
-          
           git remote   
           
           git bracnh
