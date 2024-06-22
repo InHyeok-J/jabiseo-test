@@ -42,6 +42,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_KEY }}
           aws-region: ap-northeast-2
 
+      - name: Fetch tags
+        run: git fetch --tags
+
       - name: setup dockerImage name
         run: |
           GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "no-tag")
