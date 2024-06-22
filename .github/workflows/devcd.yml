@@ -52,7 +52,7 @@ jobs:
           
           git remote   
           
-          git bracnh
+          git branch
           
           git remote show origin
           
