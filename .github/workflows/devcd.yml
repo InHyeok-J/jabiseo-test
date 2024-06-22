@@ -48,6 +48,10 @@ jobs:
       - name: setup dockerImage name
         run: |
           git fetch --tags
+          git tag
+          
+          git fetch 
+          git tag
           GIT_TAG=$(git describe --tags --abbrev=0)
           echo "GIT_TAG=${GIT_TAG}"
           DATE=$(date +'%Y%m%d') 
