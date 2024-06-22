@@ -48,15 +48,7 @@ jobs:
       - name: setup dockerImage name
         run: |
           git fetch --tags
-          git tag
-          
-          git remote   
-          
-          git branch
-          
-          git remote show origin
-          
-          GIT_TAG=$(git describe --tags --abbrev=0)
+          GIT_TAG=$(git tag --sort=committerdate | tail -1 )
           echo "GIT_TAG=${GIT_TAG}"
           DATE=$(date +'%Y%m%d') 
           COMMIT_SHA=$(git rev-parse --short HEAD) 
