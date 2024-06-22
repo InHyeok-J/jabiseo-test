@@ -1,6 +1,6 @@
 on:
   push:
-    branches: ["develop"]
+    branches: [ "develop" ]
 
   workflow_dispatch:
 
@@ -22,7 +22,7 @@ jobs:
       - name: save into application.properties
         env:
           DEV_VARIABLES: ${{ toJson(secrets) }}
-        run : |
+        run: |
           echo "$DEV_VARIABLES" | jq -r 'to_entries | 
           map(select(.key | startswith("DEV_")))[] | "\(.key | sub("^DEV_"; ""))=\(.value)"' > ./jabiseo-api/src/main/resources/application.properties
 
@@ -41,18 +41,23 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_KEY }}
           aws-region: ap-northeast-2
-
+      - name: Get the most recent tag
+        id: get_tag
+        run: |
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "none")
+          if [ "$TAG" = "none" ]; then
+            echo "No tags found."
+            exit 0 
+          else
+            echo "MOST_RECENT_TAG=$TAG" >> $GITHUB_ENV
+            echo "Most recent tag: $TAG"
+          fi
 
       - name: setup dockerImage name
         run: |
-          GIT_TAG=$(git describe --tags --abbrev=0)
           DATE=$(date +'%Y%m%d') 
           COMMIT_SHA=$(git rev-parse --short HEAD) 
-          dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}"
-          echo "${GITHUB_REF}"
-          echo "${GITHUB_REF#refs/}"
-          echo "git_tag=${GIT_TAG}"
-          echo "sha = ${COMMIT_SHA}"
+          dockerImage="${{env.ECR_URI}}:${{env.MOST_RECENT_TAG}}-${DATE}-${COMMIT_SHA}"
           echo "dockerImage=${dockerImage}" 
           echo "dockerImage=${dockerImage}" >> $GITHUB_ENV
 
