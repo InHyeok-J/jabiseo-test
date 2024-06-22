@@ -45,7 +45,7 @@ jobs:
 
       - name: setup dockerImage name
         run: |
-          GIT_TAG=${GITHUB_REF#refs/tags/} 
+          GIT_TAG=$(git describe --tags --abbrev=0)
           DATE=$(date +'%Y%m%d') 
           COMMIT_SHA=$(git rev-parse --short HEAD) 
           dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}"
