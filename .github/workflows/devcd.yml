@@ -41,23 +41,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_KEY }}
           aws-region: ap-northeast-2
-      - name: Get the most recent tag
-        id: get_tag
-        run: |
-          TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "none")
-          if [ "$TAG" = "none" ]; then
-            echo "No tags found."
-            exit 0 
-          else
-            echo "MOST_RECENT_TAG=$TAG" >> $GITHUB_ENV
-            echo "Most recent tag: $TAG"
-          fi
 
       - name: setup dockerImage name
         run: |
+          GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "no-tag")
+          echo "GIT_TAG=${GIT_TAG}"
           DATE=$(date +'%Y%m%d') 
           COMMIT_SHA=$(git rev-parse --short HEAD) 
-          dockerImage="${{env.ECR_URI}}:${{env.MOST_RECENT_TAG}}-${DATE}-${COMMIT_SHA}"
+          dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}"
           echo "dockerImage=${dockerImage}" 
           echo "dockerImage=${dockerImage}" >> $GITHUB_ENV
 
