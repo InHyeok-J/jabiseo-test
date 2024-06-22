@@ -45,10 +45,10 @@ jobs:
 
       - name: setup dockerImage name
         run: |
-          GIT_TAG=${GITHUB_REF#refs/tags/}
-          DATE=$(date +'%Y%m%d')
-          COMMIT_SHA=$(git rev-parse --short HEAD)
-          dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}"
+          GIT_TAG=${GITHUB_REF#refs/tags/} \
+          DATE=$(date +'%Y%m%d') \
+          COMMIT_SHA=$(git rev-parse --short HEAD) \
+          dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}" \
           echo "dockerImage=${dockerImage}" >> $GITHUB_ENV
 
       - name: Set Up Docker Buildx
