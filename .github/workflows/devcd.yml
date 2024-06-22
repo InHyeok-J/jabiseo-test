@@ -47,7 +47,8 @@ jobs:
 
       - name: setup dockerImage name
         run: |
-          GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "no-tag")
+          git fetch --tags
+          GIT_TAG=$(git describe --tags --abbrev=0)
           echo "GIT_TAG=${GIT_TAG}"
           DATE=$(date +'%Y%m%d') 
           COMMIT_SHA=$(git rev-parse --short HEAD) 
