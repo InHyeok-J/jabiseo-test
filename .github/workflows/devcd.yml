@@ -50,8 +50,16 @@ jobs:
           git fetch --tags
           git tag
           
-          git fetch 
-          git tag
+          
+          
+          git describe --tags
+          
+          git remote   
+          
+          git bracnh
+          
+          git remote show origin
+          
           GIT_TAG=$(git describe --tags --abbrev=0)
           echo "GIT_TAG=${GIT_TAG}"
           DATE=$(date +'%Y%m%d') 
