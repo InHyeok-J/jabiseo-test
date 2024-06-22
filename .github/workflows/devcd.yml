@@ -48,7 +48,9 @@ jobs:
           GIT_TAG=${GITHUB_REF#refs/tags/} 
           DATE=$(date +'%Y%m%d') 
           COMMIT_SHA=$(git rev-parse --short HEAD) 
-          dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}" 
+          dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}"
+          echo "${GITHUB_REF}"
+          echo "${GITHUB_REF#refs/}"
           echo "git_tag=${GIT_TAG}"
           echo "sha = ${COMMIT_SHA}"
           echo "dockerImage=${dockerImage}" 
