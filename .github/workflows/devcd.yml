@@ -49,6 +49,7 @@ jobs:
           DATE=$(date +'%Y%m%d') \
           COMMIT_SHA=$(git rev-parse --short HEAD) \
           dockerImage="${{env.ECR_URI}}:${GIT_TAG}-${DATE}-${COMMIT_SHA}" \
+          echo "dockerImage=${dockerImage}"
           echo "dockerImage=${dockerImage}" >> $GITHUB_ENV
 
       - name: Set Up Docker Buildx
@@ -72,4 +73,4 @@ jobs:
           context: ./jabiseo-api/
           builder: ${{steps.buildx.outputs.name}}
           push: true
-          tags: ${{env.dockerimage}}
+          tags: ${{env.dockerImage}}
